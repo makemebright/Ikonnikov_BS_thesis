@@ -15,16 +15,16 @@
 
 .. class:: center
 
-    :Название исследуемой задачи: Мое название работы
-    :Тип научной работы: M1P/НИР
-    :Автор: Имя Отчество Фамилия
-    :Научный руководитель: степень, Фамилия Имя Отчество
+    :Название исследуемой задачи: Вероятностные модели причинно-следственных связей в сходящихся отображениях
+    :Тип научной работы: НИР
+    :Автор: Марк Игоревич Иконников
+    :Научный руководитель: д.ф-м.н. Стрижов Вадим Викторович
     :Научный консультант(при наличии): степень, Фамилия Имя Отчество
 
 Abstract
 ========
-
-Purus sit amet luctus venenatis lectus magna fringilla. Condimentum id venenatis a condimentum vitae sapien. Auctor neque vitae tempus quam pellentesque nec nam aliquam. Eget egestas purus viverra accumsan in. Nam aliquam sem et tortor. Donec et odio pellentesque diam volutpat commodo. Odio pellentesque diam volutpat commodo sed egestas. Sit amet dictum sit amet justo. Pellentesque sit amet porttitor eget. Imperdiet sed euismod nisi porta lorem mollis aliquam ut. Quis varius quam quisque id diam vel quam elementum. Ornare lectus sit amet est placerat in. Vulputate dignissim suspendisse in est ante. Elit sed vulputate mi sit amet mauris. Egestas sed tempus urna et pharetra pharetra. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus.
+На сегодняшний день работа с мультимодальными данными набирает всё большую популярность: учет взаимосвязей между ними улучшает качество предсказания. В  статье мы предлагаем новую формулировку причинно-следсвенных связей применительно к методу сходящихся отображений.
+Дополнительно мы обсуждаем связь CCA с механизмами внимания и показываем, что attention-подобные конструкции, как и классический CCA, аппроксимируют ассоциативную структуру данных, но не идентифицируют каузальный эффект. Предложенная формулировка закладывает основу для интеграции причинного вывода в методы мультимодального представления, включая динамические системы и текстовые данные.
 
 Research publications
 ===============================
