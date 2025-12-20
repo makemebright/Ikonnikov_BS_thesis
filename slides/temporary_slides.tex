@@ -1,0 +1,230 @@
+
+\documentclass{beamer}
+\beamertemplatenavigationsymbolsempty
+\usecolortheme{beaver}
+\setbeamertemplate{blocks}[rounded=true, shadow=true]
+\setbeamertemplate{footline}[page number]
+%
+\usepackage{adjustbox}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amssymb,amsfonts,amsmath,mathtext}
+\usepackage{subfig}
+\usepackage[all]{xy}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{hhline}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{algpseudocode}
+\usepackage{tabularx}
+\graphicspath{ {fig/} {../fig/} }
+
+%----------------------------------------------------------------------------------------------------------
+\title[\hbox to 56mm{Bayesian Causal Inference in the Convergent Cross-Mapping test and Canonical Correlation Analysis}
+\author[Placeholder Authors]{Bayesian Causal Inference in the Convergent Cross-Mapping test and Canonical Correlation Analysis}
+\institute{Moscow Institute of physics and Technology}
+\date{\footnotesize
+
+\par\smallskip\emph{Author:} Mark Ikonnikov \
+\par\smallskip\emph{Expert:} Vadim Strijov \\
+\par\bigskip\small December, 2025}
+
+%----------------------------------------------------------------------------------------------------------
+\begin{document}
+%----------------------------------------------------------------------------------------------------------
+\begin{frame}
+\thispagestyle{empty}
+\maketitle
+\end{frame}
+
+\begin{frame}{Research Objective: Bayesian Causal Inference for CCA/CCM}
+\begin{block}{Objectives}
+\begin{enumerate}
+    \item Formulate probabilistic CCA with Bayesian interpretation.
+    \item Introduce \texttt{do(X)} intervention operator for causal inference for CCA.
+    \item Formulate the Bayesian Causal Inference with \texttt{do(X)} intervention operator to be used in the Convergent Cross-Mapping test (TO BE DONE)
+    \item Validate via d-variate time series, text document. (TO BE DONE)
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Motivation: Why Causal Inference in Time Series?}
+\begin{columns}[c]
+\column{0.7\textwidth}
+    \includegraphics[width=1.0\textwidth]{cca_ci.jpg} \\
+    \textit{Understanding causal influence between coupled series via CCA.}
+\column{0.5\textwidth}
+    \begin{itemize}
+        \item Classical CCA: captures correlations, not causation.
+        \item CCM: tests predictive causation via shadow manifolds.
+        \item Bayesian CCA + \texttt{do(X)}: allows reasoning about interventions.
+    \end{itemize}
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Background and Literature}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}X
+                                c
+                                >{\raggedright\arraybackslash}p{3cm}
+                                >{\raggedright\arraybackslash}p{2cm}}
+\toprule
+\textbf{Title} & \textbf{Year} & \textbf{Authors} & \textbf{Paper} \\
+\midrule
+A Probabilistic Interpretation of Canonical Correlation Analysis
+& 2001
+& Bach et al.
+& \href{https://www.jmlr.org/papers/volume3/bach02a/bach02a.pdf}{JMLR} \\
+
+Canonical Correlation Analysis: An Overview with Application to Learning Methods
+& 2012
+& Hardoon et al.
+& Neural Computation \\
+
+Learning Relationships between Text, Audio, and Video via Deep CCA for Multimodal Language Analysis
+& 2020
+& Sun et al.
+& AAAI \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+
+%------------------------------------------------
+\begin{frame}{Probabilistic Model of CCA}
+\begin{theorem}[Probabilistic CCA]
+Let $Z \sim \mathcal{N}(0,I_k)$, then
+\[
+X = AZ + \varepsilon_X, \quad \varepsilon_X \sim \mathcal{N}(0,\Psi_X), \quad
+Y = BZ + \varepsilon_Y, \quad \varepsilon_Y \sim \mathcal{N}(0,\Psi_Y).
+\]
+There exists a parametrization $(A^*,B^*)$ such that the classical canonical directions $(U,V)$ satisfy
+\[
+A^* = C_{11}^{1/2} U \Lambda^{1/2}, \quad B^* = C_{22}^{1/2} V \Lambda^{1/2}.
+\]
+\end{theorem}
+\begin{block}{Insight}
+pCCA represents CCA as a latent-variable model and relates probabilistic parameters to canonical directions.
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{SCM with $\text{do}(X)$ Intervention}
+
+Consider the model
+\[
+Z \sim \mathcal N(0,I_k), \quad 
+X = AZ + U_X, \quad 
+Y = CX + BZ + U_Y.
+\]
+Then $\mathcal M = \langle \mathcal U, \mathcal V, \mathcal F, P(\mathcal U)\rangle$ defines a structural causal model for $X \to Y$ with hidden confounder $Z$ and direct effect $C$.
+\begin{block}{Insight}
+Formalizes causal relationships and sets the basis for interventional analysis via \texttt{do(X)}.
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Interventional Distribution}
+\begin{theorem}[Interventional Distribution]
+For the SCM above,
+\[
+P(Y \mid do(X=x)) = \mathcal N(Cx, BB^\top + \Psi_Y).
+\]
+\end{theorem}
+\begin{block}{Insight}
+Mean encodes direct causal effect, variance accounts for latent confounders. Allows separation of causation from correlation.
+\end{block}
+\begin{corollary}[Linear Causal Effect]
+\[
+\mathbb E[Y \mid do(X=x_1)] - \mathbb E[Y \mid do(X=x_0)] = C (x_1 - x_0)
+\]
+\end{corollary}
+\begin{block}{Insight}
+Identifies linear, pure causal effect, independent of hidden confounders.
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Projection onto CCA Subspace}
+
+\begin{theorem}[Projection of Causal Effect]
+Let $(u_i,v_i)$ be canonical directions normalized by
+$u_i^\top C_{11} u_i = v_i^\top C_{22} v_i = 1$. Then
+\[
+v_i^\top \mathbb E[Y \mid do(X=x)] = (v_i^\top C u_i) (u_i^\top x).
+\]
+\end{theorem}
+
+\begin{block}{Insight}
+Shows how interventional effect projects linearly onto canonical coordinates, facilitating interpretation in CCA space.
+\end{block}
+
+\begin{theorem}[Non-Causal Nature of Canonical Correlations]
+For SCM with $X = AZ$, $Y = CX + BZ$ and $\Psi_X = \Psi_Y = 0$, the canonical correlation $\rho_i$ satisfies
+\[
+\rho_i = u_i^\top C_{11} C^\top v_i + u_i^\top A B^\top v_i.
+\]
+\end{theorem}
+
+\end{frame}
+
+%------------------------------------------------
+
+%------------------------------------------------
+\begin{frame}{Interpretation for Time Series and CCM}
+\begin{block}{Time Series}
+- $\text{do}(X_t = x)$: force state at time $t$, observe $Y_{t+\tau}$.  
+- SCM + pCCA isolates direct causal influence from latent dynamics.
+\end{block}
+\begin{block}{CCM Perspective}
+- Project interventional response on reconstructed manifold.  
+- Enables estimation of directed influence $X \to Y$ beyond correlation.
+\end{block}
+\begin{block}{Textual Analogy}
+- $\text{do}(X=x)$: modify embeddings of linguistic features.  
+- $Z$: latent semantic concepts.  
+- Measures causal impact on related documents.
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Summary of Contributions}
+\begin{itemize}
+    \item Formulated SCM for pCCA with $\text{do}(X)$.  
+    \item Derived interventional distribution and projection onto CCA space.  
+    \item Demonstrated difference between canonical correlation and causal effect.  
+    \item Laid foundation for CCM-based causal estimation in time series and text.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Empirical Validation of the Causal pCCA Model}
+\centering
+\includegraphics[width=0.7\textwidth]{empirical_vs_theor.png}
+
+\vspace{0.3cm}
+\small
+Comparison between the empirical response of the system and the theoretical
+interventional expectation predicted by the causal pCCA model.
+\end{frame}
+
+\begin{frame}{Conclusions and Novelty}
+\begin{block}{Key Findings}
+\begin{itemize}
+    \item Developed Probabilistic CCA with \texttt{do(X)} operator for causal inference in time series.
+    \item Derived closed-form posterior distributions under intervention.
+    \item Empirical results validate the theoretical formulation
+\end{itemize}
+\end{block}
+\begin{block}{Novelty / Contribution}
+\begin{itemize}
+    \item \textbf{Proposed} a Probabilistic causal formulation of Canonical Correlation Analysis (CCA),
+    \item \textbf{distinct from} classical correlation-based CCA by explicitly introducing a structural causal model and the $\mathrm{do}(X)$ intervention operator,
+    \item \textbf{enabling} identification and analysis of causal effects in latent-variable settings.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\end{document}
