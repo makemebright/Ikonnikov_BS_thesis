@@ -1,0 +1,929 @@
+\documentclass[a4paper,14pt]{article}
+
+%%% Работа с русским языком
+\usepackage{cmap}					% поиск в PDF
+\usepackage{mathtext} 				% русские буквы в формулах
+\usepackage[T2A]{fontenc}			% кодировка
+\usepackage[utf8]{inputenc}			% кодировка исходного текста
+\usepackage[english,russian]{babel}	% локализация и переносы
+\usepackage{indentfirst}
+\frenchspacing
+
+\newcommand{\bz}{\mathbf{z}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bw}{\mathbf{w}}
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bp}{\mathbf{p}}
+\newcommand{\bq}{\mathbf{q}}
+\newcommand{\bt}{\mathbf{t}}
+\newcommand{\bu}{\mathbf{u}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bZ}{\mathbf{Z}}
+\newcommand{\bS}{\mathbf{S}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\bW}{\mathbf{W}}
+\newcommand{\bY}{\mathbf{Y}}
+\newcommand{\bU}{\mathbf{U}}
+\newcommand{\bQ}{\mathbf{Q}}
+\newcommand{\bP}{\mathbf{P}}
+\newcommand{\bA}{\mathbf{A}}
+\newcommand{\bB}{\mathbf{B}}
+\newcommand{\bC}{\mathbf{C}}
+\newcommand{\bE}{\mathbf{E}}
+\newcommand{\bF}{\mathbf{F}}
+\newcommand{\bomega}{\boldsymbol{\omega}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bgamma}{\boldsymbol{\gamma}}
+\newcommand{\bdelta}{\boldsymbol{\delta}}
+\newcommand{\bPsi}{\boldsymbol{\Psi}}
+\newcommand{\bpsi}{\boldsymbol{\psi}}
+\newcommand{\bxi}{\boldsymbol{\xi}}
+\newcommand{\bchi}{\boldsymbol{\chi}}
+\newcommand{\bzeta}{\boldsymbol{\zeta}}
+\newcommand{\blambda}{\boldsymbol{\lambda}}
+\newcommand{\beps}{\boldsymbol{\varepsilon}}
+\newcommand{\bZeta}{\boldsymbol{Z}}
+% mathcal
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cY}{\mathcal{Y}}
+\newcommand{\cW}{\mathcal{W}}
+
+\newcommand{\dH}{\mathbb{H}}
+\newcommand{\dR}{\mathbb{R}}
+\newcommand{\dE}{\mathbb{E}}
+% transpose
+\newcommand{\T}{^{\mathsf{T}}}
+
+\renewcommand{\epsilon}{\ensuremath{\varepsilon}}
+\renewcommand{\phi}{\ensuremath{\varphi}}
+\renewcommand{\kappa}{\ensuremath{\varkappa}}
+\renewcommand{\le}{\ensuremath{\leqslant}}
+\renewcommand{\leq}{\ensuremath{\leqslant}}
+\renewcommand{\ge}{\ensuremath{\geqslant}}
+\renewcommand{\geq}{\ensuremath{\geqslant}}
+\renewcommand{\emptyset}{\varnothing}
+
+%%% Дополнительная работа с математикой
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} % AMS
+\usepackage{icomma} % "Умная" запятая: $0,2$ --- число, $0, 2$ --- перечисление
+
+%% Номера формул
+%\mathtoolsset{showonlyrefs=true} % Показывать номера только у тех формул, на которые есть \eqref{} в тексте.
+%\usepackage{leqno} % Нумереация формул слева
+
+%% Свои команды
+\DeclareMathOperator{\sgn}{\mathop{sgn}}
+
+%% Перенос знаков в формулах (по Львовскому)
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}
+	{\hbox{$\mathsurround=0pt #1$}}{}}
+
+%%% Работа с картинками
+\usepackage{graphicx}  % Для вставки рисунков
+\setlength\fboxsep{3pt} % Отступ рамки \fbox{} от рисунка
+\setlength\fboxrule{1pt} % Толщина линий рамки \fbox{}
+\usepackage{wrapfig} % Обтекание рисунков текстом
+
+%%% Работа с таблицами
+\usepackage{array,tabularx,tabulary,booktabs} % Дополнительная работа с таблицами
+\usepackage{longtable}  % Длинные таблицы
+\usepackage{multirow} % Слияние строк в таблице
+
+%%% Теоремы
+\theoremstyle{plain} % Это стиль по умолчанию, его можно не переопределять.
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{proposition}[theorem]{Утверждение}
+
+\theoremstyle{definition} % "Определение"
+\newtheorem{corollary}{Следствие}[theorem]
+\newtheorem{problem}{Задача}[section]
+
+\theoremstyle{remark} % "Примечание"
+\newtheorem*{nonum}{Решение}
+
+%%% Программирование
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{etoolbox} % логические операторы
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+%%% Страница
+\usepackage{extsizes} % Возможность сделать 14-й шрифт
+\usepackage{geometry} % Простой способ задавать поля
+\geometry{top=25mm}
+\geometry{bottom=35mm}
+\geometry{left=35mm}
+\geometry{right=20mm}
+%
+%\usepackage{fancyhdr} % Колонтитулы
+% 	\pagestyle{fancy}
+%\renewcommand{\headrulewidth}{0pt}  % Толщина линейки, отчеркивающей верхний колонтитул
+% 	\lfoot{Нижний левый}
+% 	\rfoot{Нижний правый}
+% 	\rhead{Верхний правый}
+% 	\chead{Верхний в центре}
+% 	\lhead{Верхний левый}
+%	\cfoot{Нижний в центре} % По умолчанию здесь номер страницы
+
+\usepackage{setspace} % Интерлиньяж
+%\onehalfspacing % Интерлиньяж 1.5
+%\doublespacing % Интерлиньяж 2
+%\singlespacing % Интерлиньяж 1
+
+\usepackage{lastpage} % Узнать, сколько всего страниц в документе.
+
+\usepackage{soul} % Модификаторы начертания
+
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames,svgnames,table,rgb]{xcolor}
+\hypersetup{				% Гиперссылки
+	unicode=true,           % русские буквы в раздела PDF
+	pdftitle={Заголовок},   % Заголовок
+	pdfauthor={Автор},      % Автор
+	pdfsubject={Тема},      % Тема
+	pdfcreator={Создатель}, % Создатель
+	pdfproducer={Производитель}, % Производитель
+	pdfkeywords={keyword1} {key2} {key3}, % Ключевые слова
+	colorlinks=true,       	% false: ссылки в рамках; true: цветные ссылки
+	linkcolor=red,          % внутренние ссылки
+	citecolor=black,        % на библиографию
+	filecolor=magenta,      % на файлы
+	urlcolor=cyan           % на URL
+}
+
+\usepackage{csquotes} % Еще инструменты для ссылок
+
+% \usepackage[style=authoryear,maxcitenames=2,backend=biber,sorting=nty]{biblatex}
+% \addbibresource{references.bib}
+\usepackage[numbers]{natbib}
+
+\usepackage{multicol} % Несколько колонок
+
+\usepackage{tikz} % Работа с графикой
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+
+
+\author{Mark Ikonnikov, Vadim Strijov}
+\title{\textbf{Вероятностные модели причинно-следственных связей в сходящихся отображениях}}
+
+
+\begin{document}
+	\maketitle
+	
+	\section{Abstract}
+        На сегодняшний день работа с мультимодальными данными набирает всё большую популярность: учет взаимосвязей между ними улучшает качество предсказания. В  статье мы предлагаем новую формулировку причинно-следсвенных связей применительно к методу сходящихся отображений. %Ниже будет показано, что CCA - частный случай Attention, а значит, мультимодальность можно встроить внутрь фреймворка Attention.% 
+        Дополнительно мы обсуждаем связь CCA с механизмами внимания и показываем, что attention-подобные конструкции, как и классический CCA, аппроксимируют ассоциативную структуру данных, но не идентифицируют каузальный эффект. Предложенная формулировка закладывает основу для интеграции причинного вывода в методы мультимодального представления, включая динамические системы и текстовые данные.
+
+        $\mathbf{keywords:}$ CCA, CCM, Attention, CI.
+
+\section{Introduction}
+
+Современные системы анализа данных всё чаще работают с несколькими разнородными источниками информации, формируя мультимодальные представления, объединяющие текст, изображения, временные ряды и сенсорные данные. Такие постановки возникают в задачах здравоохранения, робототехники, аффективных вычислений и анализа сложных динамических систем \citep{paulpu2020foundation}. Эффективная интеграция модальностей требует методов, способных выявлять согласованную структуру между различными представлениями данных.
+
+Одним из классических инструментов мультимодального анализа является канонический корреляционный анализ (CCA) \citep{yang2021surveycca}, предназначенный для поиска линейных проекций двух наборов переменных, максимизирующих корреляцию в общем латентном пространстве. CCA и его обобщения — kernel CCA, deep CCA и probabilistic CCA — широко применяются в задачах сопоставления модальностей и кросс-модального обучения \citep{chandar2016corrnet, bayoudh2022surveydmlcv}. Однако фундаментальным ограничением этих методов является их ассоциативная природа: максимизация корреляции не различает прямые причинные эффекты и зависимости, возникающие вследствие скрытых общих факторов.
+
+С другой стороны, в анализе динамических систем были предложены методы, ориентированные на выявление направленных зависимостей, в частности Convergent Cross Mapping (CCM), основанный на реконструкции аттракторов фазового пространства. CCM способен отличать корреляции, обусловленные общей динамикой, от направленного влияния, однако не имеет явной вероятностной интерпретации и плохо масштабируется на высокоразмерные и мультимодальные данные.
+
+CCA выявляет общую скрытую структуру между переменными и, следовательно, чувствителен к искажающим эффектам, вызванным ненаблюдаемыми общими причинами. В отличие от этого, метод CCM (Convergent Cross Mapping) основан на реконструкции динамических аттракторов и не выявляет чисто ассоциативные зависимости, лишенные направленной динамической связи.
+
+Параллельно с этим в последние годы ключевую роль в моделировании сложных зависимостей играют механизмы внимания (attention), лежащие в основе трансформерных архитектур. Несмотря на выразительность, attention-механизмы также основаны на ассоциативных мерах сходства и не обеспечивают каузальной интерпретации получаемых зависимостей.
+
+В данной работе мы ставим своей целью формально связать канонический корреляционный анализ с аппаратом причинно-следственного вывода. Используя структурные причинные модели и оператор интервенции $\mathrm{do}(X)$, мы показываем, что даже в линейно-гауссовской постановке канонические корреляции в общем случае не совпадают с каузальным эффектом. Это наблюдение мотивирует введение причинной версии probabilistic CCA, в рамках которой интервенционный эффект выражается через явный линейный оператор, независимый от скрытых конфаундеров.
+
+
+
+        \section{Связь CCA - attention}
+        \subsection{CCA: Canonical-Correlation analysis - transformer}
+        Мы продолжаем расширять область применимости CCA и представляем способ встраивания его в Attention.\\
+        Canonical Correlation Analysis (CCA) - стандартный инструмент для выявления линейных зависимостей между двумя наборами данных .\cite{6788402} Пусть нам дано множество векторов $X\in \dR^{n_1\times m}$ и $Y\in \dR^{n_2\times m}$, где $m$ - количество векторов. Задача CCA - найти такие афинные преобразования $\bW_x, \bW_y$, которые максимизируют корреляцию между $X, Y$ в новом пространстве:
+        \begin{equation}
+            \begin{aligned}
+            \bW^{*}_x, \bW^{*}_y &= \arg\max_{\bW_x, \bW_y} \, \text{corr}(\bW_x\T X, \bW_y\T Y) \\
+            &= \arg\max_{\bW_x, \bW_y}\frac{\bW_x\T \hat{\bE}[XY\T] \bW_y}{\sqrt{\bW_x\T \hat{\bE}[XX\T] \bW_x \bW_y\T \hat{\bE}[YY\T] \bW_y}} \\
+            &= \arg\max_{\bW_x, \bW_y}\frac{\bW_x\T C_{12} \bW_y}{\sqrt{\bW_x\T C_{11} \bW_x \bW_y\T C_{22} \bW_y}},
+            \end{aligned}
+        \end{equation}
+        где $\hat{\bE}[f(\bx, \by)] = \frac{1}{m}\sum\limits_{i=1}^{m}f(\bx_i, \by_i)$, матрицы ковариации $X$ и $Y$ есть $C_{11} = \frac{1}{m}XX\T \in \dR^{n_1\times n_1}$, $C_{22} = \frac{1}{m}YY\T \in \dR^{n_2\times n_2}$, а матрица кросс-ковариации X, Y есть $C_{12} = \frac{1}{m}XY\T \in\dR^{n_1\times n_2}$.
+
+        Развивая идею \cite{sun2020learning} для решения воспользуемся методом Singular Value Decomposition (SVD, Martin and Maes 1979) для $Z = C_{11}^{-1/2}C_{12}C_{22}^{-1/2}$ и получим матрицы U, S, V. Тогда
+        \begin{equation}
+            \begin{aligned}
+                &\bW_x^* = C_{11}^{-\frac{1}{2}}U = (\frac{1}{m}XX\T)^{-\frac{1}{2}}U \\
+                &\bW_y^* = C_{22}^{-\frac{1}{2}}V = (\frac{1}{m}YY\T)^{-\frac{1}{2}}V \\
+                &\text{corr}(\bW_x\T^* X, \bW_y\T^* Y) = \text{trace}(Z\T Z)^{\frac{1}{2}}
+            \end{aligned}
+        \end{equation}
+
+         Мы рассмотрим механизм внимания, который используется для определения важности разных частей входных данных. 
+
+        Механизм самовнимания определяется следующим образом:
+	
+\begin{equation}
+	\begin{aligned}
+		&\text{attn}: \mathbb{R}^{m \times d} \times \mathbb{R}^{m \times d} \times \mathbb{R}^{m \times d} \longrightarrow \mathbb{R}^{m \times d} \\
+		&\text{attn}(Q, K, V) = \varphi\left(\frac{Q K^\top}{\sqrt{d}}\right) V
+	\end{aligned}
+	\label{attn}
+\end{equation}
+
+где $Q, K, V \in \mathbb{R}^{m \times d}$ представляют собой запросы, ключи и значения соответственно, а $\varphi: \mathbb{R}^{m \times m} \longrightarrow \mathbb{R}^{m \times m}$ — нелинейная функция, применяемая по строкам (обычно softmax).
+
+Самовнимание, применяемое к входным данным $X \in \mathbb{R}^{m \times n_1}$, вычисляется следующим образом:
+
+\begin{equation}
+	\begin{aligned}
+		&\text{self-attn}: \mathbb{R}^{m \times n_1} \longrightarrow \mathbb{R}^{m \times d} \\
+		&\text{self-attn}(X) = \text{attn}(X W_q, X W_k, X W_v)
+	\end{aligned}
+	\label{self-attn}
+\end{equation}
+
+где $W_q, W_k, W_v \in \mathbb{R}^{n_1 \times d}$ — матрицы параметров.
+
+\subsection{CCA и механизм внимания}
+
+И CCA, и механизмы внимания направлены на выявление взаимосвязей между двумя наборами данных. Однако они существенно различаются по подходам и областям применения:
+
+\setlength{\extrarowheight}{3mm}
+\begin{table}[bhtp]
+	\centering
+	\begin{tabulary}{\textwidth}{|C|C|C|}
+		\hline
+		\textbf{Аспект} & \textbf{Механизм внимания} & \textbf{Канонический корреляционный анализ (CCA)} \\
+		\hline
+		Цель & Выявить релевантные части входных последовательностей & Получить вложения в одном скрытом пространстве + снижение размерности \\
+		\hline
+		Мера сходства & $A = \frac{1}{\sqrt{d}} Q K^\top$ — матрица внимания & $\text{tr}(A^\top S_{12} B)$, при условии $A^\top S_{11} A = B^\top S_{22} B = I$ \\
+		\hline
+		Цель оптимизации & Минимизация задачи-специфической функции потерь & $\max_{A,B} \text{corr}(A^\top X, B^\top Y)$ \\
+		\hline
+	\end{tabulary}
+	\caption{Сравнение механизмов внимания и CCA}
+\end{table}
+
+Отметим, что $A^\top S_{12} B = \frac{1}{m} A^\top X Y^\top B = \frac{1}{m} A^\top X \left( B^\top Y \right)^\top = \frac{1}{m} \widehat{Q} \widehat{K}^\top$. Это весьма похоже на формулу матрицы внимания $A = \dfrac{1}{\sqrt{d}} Q K^\top$. Особенно в случае кросс-внимания, где $Q$ — линейное преобразование $X_1$, а $K$ — линейное преобразование $X_2$.
+
+
+        \section{Формулировка CI через CCA}
+
+\subsection{Вероятностная модель канонического корреляционного анализа}
+
+Рассмотрим две случайные величины $X \in \mathbb{R}^{n_1}$ и $Y \in \mathbb{R}^{n_2}$ с совместным распределением $P_{XY}$. Согласно вероятностной интерпретации канонического корреляционного анализа \cite{Bach2005API}, существует латентная переменная $Z \in \mathbb{R}^k$ ($k \leq \min(n_1, n_2)$), такая что:
+
+\begin{equation}
+\begin{aligned}
+Z &\sim \mathcal{N}(0, I_k) \\
+X &= A Z + \varepsilon_X, \quad \varepsilon_X \sim \mathcal{N}(0, \Psi_X) \\
+Y &= B Z + \varepsilon_Y, \quad \varepsilon_Y \sim \mathcal{N}(0, \Psi_Y)
+\end{aligned}
+\end{equation}
+где $\Psi_X \in \mathbb{R}^{n_1 \times n_1}$ и $\Psi_Y \in \mathbb{R}^{n_2 \times n_2}$ --- диагональные матрицы ковариаций шумов, $A \in \mathbb{R}^{n_1 \times k}$ и $B \in \mathbb{R}^{n_2 \times k}$ --- матрицы загрузок.
+
+\begin{theorem}[Эквивалентность вероятностного и классического CCA]
+Пусть $(U,V)$ — канонические направления классического CCA.
+Тогда существует параметризация вероятностной модели,
+в которой матрицы загрузок имеют вид $(A^*, B^*)$ в вероятностной модели CCA связаны с решениями классического CCA следующим образом:
+\begin{equation}
+A^* = C_{11}^{1/2} U \Lambda^{1/2}, \quad B^* = C_{22}^{1/2} V \Lambda^{1/2}
+\end{equation}
+где $U, V$ --- левые и правые сингулярные векторы матрицы 
+
+$Z = C_{11}^{-1/2}C_{12}C_{22}^{-1/2}$, $\Lambda$ --- диагональная матрица сингулярных значений, $C_{11} = \text{Cov}(X)$, $C_{22} = \text{Cov}(Y)$, $C_{12} = \text{Cov}(X,Y)$.
+\end{theorem}
+
+\begin{proof}
+Из вероятностной модели следует, что ковариационная матрица совместного распределения:
+\[
+\Sigma = \begin{pmatrix}
+C_{11} & C_{12} \\
+C_{21} & C_{22}
+\end{pmatrix} = \begin{pmatrix}
+A A^T + \Psi_X & A B^T \\
+B A^T & B B^T + \Psi_Y
+\end{pmatrix}
+\]
+Максимизация канонической корреляции эквивалентна решению обобщенной проблемы собственных значений:
+\[
+C_{12}C_{22}^{-1}C_{21} u = \lambda C_{11} u
+\]
+Подстановка выражений для ковариаций из вероятностной модели и использование спектрального разложения показывает, что оптимальные матрицы загрузок должны иметь указанную форму. Подробное доказательство эквивалентности следует из анализа
+максимального правдоподобия вероятностной CCA и его связи
+с обобщённой задачей собственных значений; см. \cite{Bach2005API}.
+\end{proof}
+
+\subsection{Структурная причинная модель с оператором $\text{do}(X)$}
+
+Введем структурную причинную модель (SCM) для системы $(X,Y)$, где $X$ является потенциальной причиной $Y$. Предположим, что существуют скрытые общие причины $Z$, влияющие как на $X$, так и на $Y$.
+
+\begin{definition}[Структурная причинная модель для CCA]
+Структурная причинная модель $\mathcal{M} = \langle \mathcal{U}, \mathcal{V}, \mathcal{F}, P(\mathcal{U}) \rangle$ определяется как:
+\begin{equation}
+\begin{aligned}
+Z &\leftarrow U_Z, \quad U_Z \sim \mathcal{N}(0, I_k) \\
+X &\leftarrow f_X(Z, U_X) = A Z + U_X, \quad U_X \sim \mathcal{N}(0, \Psi_X) \\
+Y &\leftarrow f_Y(X, Z, U_Y) = C X + B Z + U_Y, \quad U_Y \sim \mathcal{N}(0, \Psi_Y)
+\end{aligned}
+\end{equation}
+где $C \in \mathbb{R}^{n_2 \times n_1}$ --- матрица прямого причинного влияния $X$ на $Y$, $U_X, U_Y$ --- независимые шумовые переменные.
+\end{definition}
+
+\section{Обзор подхода}
+\label{sec:overview}
+
+\subsection{Практическая интерпретация для временных рядов и текстов}
+
+Для $d$-вариантных временных рядов оператор $\text{do}(X_t = x)$ интерпретируется как искусственное форсирование состояния системы $X$ в момент времени $t$ и наблюдение за реакцией $Y_{t+\tau}$. В контексте сходящихся отображений (Convergent Cross-Mapping) это позволяет отделить прямое причинное влияние от корреляций, обусловленных общими динамическими факторами.
+
+Для текстовых документов интервенция $\text{do}(X = x)$ соответствует модификации эмбеддингов определенных лингвистических признаков (например, тональности или тематических маркеров) и измерению изменений в связанных документах. Скрытая переменная $Z$ здесь представляет собой семантические концепции, общие для обоих наборов документов.
+
+\section{Общая идея и пайплайн}
+
+Цель работы --- восстановить структурную каузальную модель (Structural Causal Model, SCM) между двумя высокоразмерными парными временными рядами $\Xobs, \Yobs \in \R^d$ при наличии только наблюдательных данных $\D = \{(\Xobs(t), \Yobs(t))\}_{t=1}^{T}$. В отличие от стандартной задачи поиска причинно-следственного графа, мы хотим получить параметрическую SCM в латентном пространстве, поддерживающую интервенционные запросы $p(Y \mid \do(Z = z_0))$ и автоматически разделяющую данные на латентные режимы с различной каузальной структурой.
+
+Ключевая идея --- \textbf{формализация обучаемого оператора интервенции $\do(Z = z_0)$ через стохастическую политику-смесь}. Каждая компонента смеси соответствует одному режиму данных (например, фазе движения), а семплирование из неё реализует soft-интервенцию на латент $Z$. Режимы не размечены и выводятся моделью самостоятельно через EM.
+
+Пайплайн состоит из четырёх этапов:
+\begin{enumerate}
+    \item \textbf{Предобработка.} Выбор временного лага $\tau^*$ через одно-компонентный CCA, переход к сдвинутым рядам $(X_{t-\tau^*}, Y_t)$.
+    \item \textbf{Сжатие в латент.} С помощью CCA находим линейное подпространство размерности $k$, в котором концентрируется совместный сигнал; получаем декодеры $D_X, D_Y$ и начальное представление $Z$.
+    \item \textbf{Causal Mixture Model в латенте.} Обучаем SCM с инвариантными по режимам параметрами $\theta = (A, B, C)$ и обучаемой смесевой интервенционной политикой
+    $\pi_\xi(Z) = \sum_e w_e \Normal(\mu_e, \Sigma_e)$. Каждая компонента смеси интерпретируется как обучаемая soft-интервенция $\do(Z \sim \Normal(\mu_e, \Sigma_e))$.
+    \item \textbf{Извлечение графа.} В латентном пространстве собираем оператор $F_e' = U_e' \Lambda_e' V_e'^\top$, где $\Lambda_e'$ --- диагональная матрица (связи только между парными компонентами латента). Структура графа определяется ненулевыми сингулярными значениями и их направлениями.
+\end{enumerate}
+
+Обоснование выбора компонентов: байесовский CCA \cite{klami2013bayesian} даёт идентифицируемый линейный латент с ARD-разреженностью. Causal mixture model \cite{mclachlan2000finite} обрабатывается стандартным EM-алгоритмом \cite{dempster1977em}, при этом компоненты смеси получают каузальную интерпретацию как стохастические интервенции \cite{correa2020calculus}. Инвариантность $\theta$ по компонентам обеспечивает идентифицируемость структурных параметров в духе \cite{khemakhem2020variational}.
+
+\section{Постановка задачи и допущения}
+
+Пусть $\D = \{(\Xobs(t), \Yobs(t))\}_{t=1}^{T}$ --- парные временные ряды, $\Xobs(t), \Yobs(t) \in \R^d$, $d \gg k$. Работаем в следующих допущениях:
+
+\begin{assumption}\label{a:latent}
+Существует низкоразмерный латент $Z \in \R^k$, генерирующий оба сигнала.
+\end{assumption}
+\begin{assumption}\label{a:direct}
+Между сигналами есть прямой каузальный канал $X \to Y$ в латенте.
+\end{assumption}
+\begin{assumption}\label{a:linear}
+Структурные механизмы линейны, шумы гауссовы.
+\end{assumption}
+\begin{assumption}\label{a:mixture}
+Распределение латента $Z$ нестационарно во времени и описывается смесью из $E$ компонент (режимов), $E$ заранее неизвестно и ограничено $E \leq E_{\max}$.
+\end{assumption}
+\begin{assumption}\label{a:invariance}
+Структурные параметры $\theta = (A, B, C)$ \emph{инвариантны} по режимам; в разных режимах меняется только распределение $Z$ (Sparse Mechanism Shift hypothesis \cite{scholkopf2021toward}).
+\end{assumption}
+\begin{assumption}\label{a:lag}
+Лаг между $X$ и $Y$ конечен, $\tau^* < \infty$, и идентифицируется одно-компонентным CCA.
+\end{assumption}
+
+\section{Предобработка: выбор лага}
+
+Перед причинным выводом определяем временной лаг $\tau^*$ между $\Xobs$ и $\Yobs$ через старший канонический коэффициент:
+\begin{equation}
+    \tau^* = \arg\max_{\tau \in \{0, 1, \dots, \tau_{\max}\}} \rho_1\!\big(\Xobs_{t-\tau},\, \Yobs_t\big),
+\end{equation}
+где $\rho_1(\cdot, \cdot)$ --- старший сингулярный коэффициент кросс-ковариационного оператора. После определения $\tau^*$ работаем с выровненными парами $(X_t, Y_t) := (\Xobs_{t-\tau^*}, \Yobs_t)$.
+
+\section{Структурная каузальная модель в латенте}
+
+Фиксируем минимальную SCM на графе
+\begin{equation}
+    G_0 = \{Z \to X,\ Z \to Y,\ X \to Y\}, \quad X, Y, Z \in \R^k,
+\end{equation}
+со структурными уравнениями:
+\begin{equation}
+    \label{eq:scm}
+    \begin{aligned}
+        Z &\sim \pi_\xi(Z), \\
+        X &= A Z + \varepsilon_x, \quad \varepsilon_x \sim \Normal(0, \Sigma_x), \\
+        Y &= B Z + C X + \varepsilon_y, \quad \varepsilon_y \sim \Normal(0, \Sigma_y),
+    \end{aligned}
+\end{equation}
+где $A, B, C \in \R^{k \times k}$ --- структурные параметры (инвариантные по режимам), а $\pi_\xi(Z)$ --- обучаемое интервенционное распределение, описывающее режимы.
+
+\section{Обучаемая операция интервенции}
+
+\subsection{Параметризация $\do$-оператора}
+
+Определяем обучаемый soft-интервенционный оператор как смесь гауссиан:
+\begin{equation}
+    \label{eq:pi}
+    \pi_\xi(Z) = \sum_{e=1}^{E_{\max}} w_e \cdot \Normal(Z; \mu_e, \Sigma_e), \quad \sum_e w_e = 1,\ w_e \geq 0,
+\end{equation}
+с параметрами $\xi = \{w_e, \mu_e, \Sigma_e\}_{e=1}^{E_{\max}}$. Каждая компонента $e$ интерпретируется как \textbf{обучаемая стохастическая интервенция}:
+\begin{equation}
+    \do_e(Z) \equiv \do\!\big(Z \sim \Normal(\mu_e, \Sigma_e)\big).
+\end{equation}
+В пределе $\Sigma_e \to 0$ компонента вырождается в классическую атомарную интервенцию $\do(Z = \mu_e)$.
+
+\subsection{Семплирование из $\do$-оператора}
+
+Семплирование точки из обучаемой интервенционной политики реализуется в два шага:
+\begin{equation}
+    e \sim \Cat(w_1, \dots, w_{E_{\max}}), \quad Z \sim \Normal(\mu_e, \Sigma_e).
+\end{equation}
+В формулировке Pearl это соответствует \textbf{рандомизированной политике интервенций} \cite{correa2020calculus}. Точка с индексом $e$ обозначает выбранный режим, который \emph{не наблюдается} и трактуется как скрытая дискретная переменная в модели.
+
+\subsection{Интерпретация компонент как режимов}
+
+Каждая компонента смеси соответствует одному режиму данных. Режимы не размечены: они выводятся моделью через апостериорные responsibilities $r_{t,e} = p(e_t = e \mid X_t, Y_t; \theta, \xi)$ на E-шаге EM-алгоритма. Число фактически активных режимов $E \leq E_{\max}$ определяется автоматически через ARD-приор на веса $\{w_e\}$.
+
+\section{Полная генеративная модель}
+
+Модель факторизуется как двухуровневая mixture с causal-структурой внутри компоненты:
+\begin{equation}
+    p(X, Y, Z, e \mid \theta, \xi) = \underbrace{p(e \mid \xi)}_{\Cat(w)} \cdot \underbrace{p(Z \mid e; \xi)}_{\Normal(\mu_e, \Sigma_e)} \cdot \underbrace{p(X \mid Z; \theta)}_{\Normal(AZ, \Sigma_x)} \cdot \underbrace{p(Y \mid X, Z; \theta)}_{\Normal(BZ + CX, \Sigma_y)}.
+\end{equation}
+
+Маргинальное правдоподобие наблюдений:
+\begin{equation}
+    p(X_t, Y_t \mid \theta, \xi) = \sum_{e=1}^{E_{\max}} w_e \int p(X_t \mid Z; \theta)\, p(Y_t \mid X_t, Z; \theta)\, \Normal(Z; \mu_e, \Sigma_e)\, dZ.
+\end{equation}
+В линейно-гауссовом случае интеграл берётся аналитически:
+\begin{equation}
+    p(X_t, Y_t \mid e; \theta, \xi) = \Normal\!\left(\begin{bmatrix} A\mu_e \\ (B+CA)\mu_e \end{bmatrix},\ \Sigma_e^{XY}(\theta, \xi)\right),
+\end{equation}
+где $\Sigma_e^{XY}$ --- выписываемая в явном виде блочная ковариация.
+
+\section{Приоры}
+
+ARD-приоры на структурные параметры (по аналогии с байесовским CCA \cite{klami2013bayesian}):
+\begin{equation}
+    p(A \mid \bm{\alpha}^A) = \prod_{j=1}^{k} \Normal\!\big(A_{\cdot j} \mid 0, (\alpha^A_j)^{-1} I\big), \quad \alpha^A_j \sim \Gam(a_0, b_0),
+\end{equation}
+аналогично для $B$ с $\bm{\alpha}^B$ и $C$ с $\bm{\alpha}^C$. Шумовые ковариации --- обратное Уишарт:
+\begin{equation}
+    \Sigma_x, \Sigma_y \sim \IW(\nu_0, S_0).
+\end{equation}
+ARD-приор на веса компонент смеси:
+\begin{equation}
+    w \sim \Dir(\alpha_w, \dots, \alpha_w), \quad \alpha_w \ll 1
+\end{equation}
+для автоматического определения числа активных режимов.
+
+\section{Функция потерь}
+
+Объединяем компоненты в единую функцию:
+\begin{equation}
+    \label{eq:loss}
+    \boxed{\Loss(\theta, \xi) = -\sum_{t=1}^{T} \log \sum_{e=1}^{E_{\max}} w_e \cdot p(X_t, Y_t \mid \do_e; \theta) - \log p(\theta) - \log p(w)}
+\end{equation}
+с компонентами:
+\begin{align}
+    p(X_t, Y_t \mid \do_e; \theta) &= \int p(X_t \mid Z; \theta)\, p(Y_t \mid X_t, Z; \theta)\, \Normal(Z; \mu_e, \Sigma_e)\, dZ, \\[1ex]
+    -\log p(\theta) &= -\log p(A \mid \bm{\alpha}^A) - \log p(B \mid \bm{\alpha}^B) - \log p(C \mid \bm{\alpha}^C) \nonumber \\
+    &\quad - \log p(\Sigma_x) - \log p(\Sigma_y).
+\end{align}
+
+\paragraph{Семантика слагаемых.}
+\begin{itemize}
+    \item Marginal interventional likelihood: оценивает наблюдательные пары через смесь обучаемых $\do$-операторов. В отличие от наивного интегрирования по фиксированному prior $p(Z)$, здесь $\pi_\xi$ обучается совместно с $\theta$, что даёт сигнал для разделения каналов $Z \to Y$ и $X \to Y$.
+    \item ARD-приоры на $A, B, C$ обеспечивают разреженность каузальных каналов в латенте.
+    \item Dirichlet-приор на $w$ контролирует число активных режимов.
+\end{itemize}
+
+\paragraph{Отсутствие тавтологии.} $\theta$ --- инвариантный по режимам объект, что создаёт \emph{сильное общее ограничение} через все компоненты смеси. Это и есть источник идентифицируемости: одни и те же $(A, B, C)$ должны объяснять данные при всех $(\mu_e, \Sigma_e)$ одновременно.
+
+\section{Алгоритм обучения: EM для causal mixture}
+
+Оптимизация $\Loss$ реализуется как EM-алгоритм со стандартной структурой для смесей \cite{mclachlan2000finite, dempster1977em}, расширенной разделяемыми параметрами $\theta$ через все компоненты.
+
+\paragraph{E-шаг.} Для каждой точки $t$ вычисляем апостериор скрытых переменных:
+\begin{align}
+    r_{t,e} &= \frac{w_e \cdot p(X_t, Y_t \mid e; \theta, \xi)}{\sum_{e'} w_{e'} \cdot p(X_t, Y_t \mid e'; \theta, \xi)}, \\
+    q(Z_t \mid X_t, Y_t, e; \theta, \xi) &= \Normal(\mu_{Z|XY,e}, \Sigma_{Z|XY,e}),
+\end{align}
+где $\mu_{Z|XY,e}, \Sigma_{Z|XY,e}$ --- аналитические выражения через моменты гауссиан.
+
+\paragraph{M-шаг (структурные параметры $\theta$, общие).} Обновление через weighted нормальные уравнения по всем точкам и режимам с весами $r_{t,e}$:
+\begin{equation}
+    \theta_{\mathrm{new}} = \arg\max_\theta \sum_{t,e} r_{t,e}\, \E_{q(Z_t|X_t,Y_t,e)}\!\big[\log p(X_t, Y_t, Z_t \mid e; \theta)\big] + \log p(\theta).
+\end{equation}
+
+\paragraph{M-шаг (параметры смеси $\xi$).} Закрытые формулы как в обычной GMM:
+\begin{align}
+    w_e &\propto \sum_t r_{t,e}, \\
+    \mu_e &= \frac{\sum_t r_{t,e}\, \E[Z_t \mid X_t, Y_t, e]}{\sum_t r_{t,e}}, \\
+    \Sigma_e &= \frac{\sum_t r_{t,e}\, \E[(Z_t - \mu_e)(Z_t - \mu_e)^\top \mid X_t, Y_t, e]}{\sum_t r_{t,e}}.
+\end{align}
+
+\paragraph{Сопряжённые обновления.} ARD-гиперпараметры $\bm{\alpha}^{A,B,C}$ и IW-параметры $\Sigma_x, \Sigma_y$ --- закрытые формулы из стандартного variational Bayes \cite{beal2003variational}.
+
+\begin{algorithm}[h]
+\caption{EM для Causal Mixture CCA}
+\label{alg:em}
+\KwIn{Данные $\D = \{(X_t, Y_t)\}_{t=1}^T$, начальное приближение $(\theta_0, \xi_0)$, гиперпараметры $(a_0, b_0, \nu_0, S_0, \alpha_w)$, верхняя оценка $E_{\max}$.}
+\KwOut{Обученные параметры $(\hat\theta, \hat\xi)$, responsibilities $\{r_{t,e}\}$, число активных режимов $\hat E$.}
+
+\textbf{Инициализация:} $\mu_e^{(0)}$ через k-means на CCA-латенте, $\Sigma_e^{(0)} = I$, $w_e^{(0)} = 1/E_{\max}$\;
+
+\For{итерация $i = 1, \dots, N$}{
+
+    \textbf{E-шаг:} вычислить $r_{t,e}^{(i)}$ и $q(Z_t \mid X_t, Y_t, e)$ аналитически\;
+
+    \textbf{M-шаг ($\theta$):} обновить структурные параметры через взвешенные нормальные уравнения\;
+    \textbf{M-шаг ($\xi$):} обновить $w_e, \mu_e, \Sigma_e$ по закрытым формулам\;
+
+    \textbf{Сопряжённые обновления:} ARD-гиперпараметры $\bm{\alpha}^{A,B,C}$ и IW-параметры $\Sigma_x, \Sigma_y$\;
+   
+    \textbf{Прунинг:} если $w_e < \epsilon$, удалить компоненту $e$\;
+}
+\Return{$(\hat\theta, \hat\xi)$ и $\{r_{t,e}\}$.}
+\end{algorithm}
+
+\section{Восстановление каузального графа в латенте}
+
+После обучения параметров $\hat\theta = (\hat A, \hat B, \hat C)$ и компонент смеси $\hat\xi$ извлекаем граф следующим образом.
+
+\subsection{Per-режимный оператор связи}
+
+Для каждого режима $e$ маргинальный оператор связи $X \to Y$ в латенте складывается из прямого канала и канала через $Z$:
+\begin{equation}
+    F_e' = \hat C + \hat B \cdot \Cov_e(Z, X)\, \Cov_e(X, X)^{-1},
+\end{equation}
+где $\Cov_e(\cdot, \cdot)$ --- ковариация при $Z \sim \Normal(\mu_e, \Sigma_e)$. Все ковариации вычисляются аналитически из структуры~\eqref{eq:scm}.
+
+\subsection{Диагональное сингулярное разложение}
+
+Допущение о диагональности связи между компонентами латента (только парные связи между $i$-й компонентой $X$ и $i$-й компонентой $Y$) даёт:
+\begin{equation}
+    \label{eq:svd}
+    F_e' = U_e' \Lambda_e' V_e'^\top,
+\end{equation}
+где $\Lambda_e' = \diag(\lambda_{e,1}', \dots, \lambda_{e,k}')$ --- \textbf{диагональная} матрица сингулярных значений, $U_e', V_e' \in \R^{k \times k}$ --- ортогональные.
+
+\subsection{Извлечение графа}
+
+Каузальный граф в латенте режима $e$ определяется ненулевыми сингулярными значениями:
+\begin{equation}
+    G_e = \{(i \to i) : \lambda_{e,i}' > \tau_{\mathrm{thresh}}\},
+\end{equation}
+где $\tau_{\mathrm{thresh}}$ --- порог, выбираемый по ARD-разреженности. Различные режимы дают различные графы $G_e$, что отражает изменение каузальной структуры между фазами данных.
+
+\subsection{Перенос в исходное пространство}
+
+Параметры в исходном пространстве восстанавливаются через декодеры CCA:
+\begin{equation}
+    A^{\mathrm{obs}} = D_X\, \hat A, \quad B^{\mathrm{obs}} = D_Y\, \hat B, \quad F_e^{\mathrm{obs}} = D_Y\, F_e'\, D_X^+.
+\end{equation}
+SVD-разложение $F_e^{\mathrm{obs}}$ задаёт направления каузальных каналов в $\R^d$.
+
+\section{Теоретические утверждения}
+
+\begin{theorem}[Идентифицируемость SCM в латенте при неизвестных режимах]
+\label{thm:identifiability}
+Пусть выполнены допущения \ref{a:latent}--\ref{a:lag} и условия:
+\begin{description}
+    \item[(C1)] Линейно-гауссова параметризация модели~\eqref{eq:scm}.
+    \item[(C2)] \emph{Достаточная различимость режимов.} Истинное число режимов $E^* \geq 2k+1$ и множество $\{(\mu_e, \Sigma_e)\}_{e=1}^{E^*}$ линейно независимо в пространстве первых и вторых моментов.
+    \item[(C3)] Матрицы $A, B$ имеют полный столбцовый ранг, $\Sigma_x, \Sigma_y \succ 0$.
+\end{description}
+Тогда глобальный максимум $\Loss$ соответствует истинным параметрам $(A, B, C)$ с точностью до перестановки и смены знака компонент латента $Z$ и перестановки индексов режимов.
+\end{theorem}
+
+\paragraph{Скетч доказательства Теоремы~\ref{thm:identifiability}.}
+\begin{enumerate}
+    \item Идентифицируемость mixture-разложения следует из \cite{teicher1963identifiability}: семейство конечных смесей невырожденных гауссиан идентифицируемо с точностью до перестановки компонент.
+    \item Внутри каждой компоненты $(X, Y) \mid e$ имеет гауссово распределение с моментами, явно зависящими от $(\theta, \mu_e, \Sigma_e)$.
+    \item Условие (C2) обеспечивает достаточное число различных моментных уравнений (аналог auxiliary variability в \cite{khemakhem2020variational}, Thm. 1).
+    \item Полный ранг (C3) гарантирует невырожденность системы; ARD на $C$ фиксирует разреженность каузальных каналов.
+\end{enumerate}
+
+\begin{theorem}[Корректность переноса SCM в исходное пространство]
+\label{thm:transfer}
+Пусть $\mathrm{SCM}_{\mathrm{latent}}$ --- обученная SCM с параметрами $(\hat A, \hat B, \hat C)$ в латенте, и $D_X, D_Y$ --- линейные декодеры в исходное пространство. Тогда индуцированная SCM в $\R^d$ с параметрами $A^{\mathrm{obs}} = D_X \hat A$, $B^{\mathrm{obs}} = D_Y \hat B$, $F_e^{\mathrm{obs}} = D_Y F_e' D_X^+$ удовлетворяет
+\begin{equation}
+    p^{\mathrm{obs}}\!\big(\Yobs \mid \do(\Xobs)\big) = p^{\mathrm{latent}}\!\big(Y \mid \do(X)\big)\Big|_{X = D_X^+ \Xobs,\, Y = D_Y^+ \Yobs}.
+\end{equation}
+\end{theorem}
+
+\paragraph{Скетч доказательства Теоремы~\ref{thm:transfer}.} Прямая подстановка в структурные уравнения и проверка коммутативности $\do$-оператора с линейным декодером \cite{rubenstein2017causal}.
+
+\begin{proposition}[Сходимость к классическому $\do$-оператору]
+\label{prop:limit}
+При $\Sigma_e \to 0$ компонента $\Normal(\mu_e, \Sigma_e)$ в \eqref{eq:pi} сходится к атомарной интервенции $\delta(Z - \mu_e)$, и $\Loss$ становится marginal likelihood по семейству классических интервенций $\{\do(Z = \mu_e)\}_{e=1}^{E_{\max}}$.
+\end{proposition}
+
+\paragraph{Скетч доказательства Утверждения~\ref{prop:limit}.} В пределе $\Sigma_e \to 0$ интеграл в \eqref{eq:pi} вырождается в значение интегранда в точке $\mu_e$, что в точности соответствует Pearl'овскому оператору подстановки $Z := \mu_e$ \cite{pearl2009causality}.
+
+\section{Резюме}
+
+Подход состоит из:
+\begin{enumerate}
+    \item \textbf{Предобработки} --- выбор лага через одно-компонентный CCA.
+    \item \textbf{Линейного CCA-сжатия} в латент размерности $k$.
+    \item \textbf{Causal Mixture Model в латенте} с инвариантными по режимам параметрами $\theta = (A, B, C)$ и обучаемой смесевой $\do$-политикой $\pi_\xi(Z) = \sum_e w_e \Normal(\mu_e, \Sigma_e)$.
+    \item \textbf{EM-алгоритма} для совместной оценки $(\theta, \xi)$ и автоматической сегментации данных на режимы через responsibilities.
+    \item \textbf{Извлечения графа} через per-режимные операторы $F_e' = U_e' \Lambda_e' V_e'^\top$ с диагональной $\Lambda_e'$.
+\end{enumerate}
+
+\paragraph{Центральная новизна.} Обучаемый оператор интервенции $\do(Z = z_0)$ формализован как смесевая стохастическая политика, компоненты которой соответствуют ненаблюдаемым режимам данных. Никакой внешней разметки режимов не требуется; режимы выводятся как побочный продукт EM-алгоритма. Идентифицируемость структурных параметров обеспечивается инвариантностью $\theta$ по компонентам смеси плюс достаточной различимостью режимов.
+
+\paragraph{Связь с CCM.} Диагональная структура $\Lambda_e'$ согласуется с поэлементной природой shadow-manifold cross-mapping \cite{sugihara2012detecting}; per-режимные операторы $F_e^{\mathrm{obs}}$ дают естественные «слои» для применения CCM внутри каждого режима в дальнейшем развитии работы.
+
+\begin{thebibliography}{99}
+
+\bibitem{klami2013bayesian}
+Klami A., Virtanen S., Kaski S.
+\newblock Bayesian Canonical Correlation Analysis.
+\newblock {\em Journal of Machine Learning Research}, 14:965--1003, 2013.
+
+\bibitem{mclachlan2000finite}
+McLachlan G., Peel D.
+\newblock {\em Finite Mixture Models}.
+\newblock Wiley, 2000.
+
+\bibitem{dempster1977em}
+Dempster A. P., Laird N. M., Rubin D. B.
+\newblock Maximum likelihood from incomplete data via the EM algorithm.
+\newblock {\em Journal of the Royal Statistical Society B}, 39(1):1--38, 1977.
+
+\bibitem{correa2020calculus}
+Correa J., Bareinboim E.
+\newblock A Calculus for Stochastic Interventions: Causal Effect Identification and Surrogate Experiments.
+\newblock {\em AAAI}, 2020.
+
+\bibitem{khemakhem2020variational}
+Khemakhem I., Kingma D., Monti R., Hyvärinen A.
+\newblock Variational Autoencoders and Nonlinear ICA: A Unifying Framework.
+\newblock {\em AISTATS}, 2020.
+
+\bibitem{scholkopf2021toward}
+Schölkopf B., Locatello F., Bauer S., Ke N. R., Kalchbrenner N., Goyal A., Bengio Y.
+\newblock Toward Causal Representation Learning.
+\newblock {\em Proceedings of the IEEE}, 109(5):612--634, 2021.
+
+\bibitem{beal2003variational}
+Beal M. J.
+\newblock {\em Variational Algorithms for Approximate Bayesian Inference}.
+\newblock PhD thesis, University College London, 2003.
+
+\bibitem{teicher1963identifiability}
+Teicher H.
+\newblock Identifiability of finite mixtures.
+\newblock {\em Annals of Mathematical Statistics}, 34:1265--1269, 1963.
+
+\bibitem{rubenstein2017causal}
+Rubenstein P., Weichwald S., Bongers S., Mooij J., Janzing D., Grosse-Wentrup M., Schölkopf B.
+\newblock Causal Consistency of Structural Equation Models.
+\newblock {\em UAI}, 2017.
+
+\bibitem{pearl2009causality}
+Pearl J.
+\newblock {\em Causality: Models, Reasoning, and Inference}.
+\newblock Cambridge University Press, 2nd edition, 2009.
+
+\bibitem{sugihara2012detecting}
+Sugihara G., May R., Ye H., Hsieh C., Deyle E., Fogarty M., Munch S.
+\newblock Detecting Causality in Complex Ecosystems.
+\newblock {\em Science}, 338(6106):496--500, 2012.
+
+\end{thebibliography}
+
+\end{document}
+
+        \section{Experiments}
+        TODO
+        Сказать что будем использовать многомерные временные ряды и тексты
+        \subsection{Dataset Details}
+        \begin{itemize}
+            \item что за датасет
+            \item какая предобработка данных проводилась
+            \item в каком виде данные подавались в модель
+        \end{itemize}
+        
+
+
+        \subsection{Training Details}
+        TODO
+        \begin{itemize}
+            \item TODO
+        \end{itemize}
+
+        \subsection{Experimental Results}
+        TODO
+
+
+
+
+	\nocite{*}
+        \bibliographystyle{unsrt} % Use a numbered bibliography style
+        \bibliography{references.bib}
+	% \printbibliography
+	
+\end{document}
+
+\subsection{Общая идея и пайплайн}
+
+Цель работы — восстановить структурную каузальную модель (Structural Causal Model, SCM) между двумя высокоразмерными парными временными рядами $X^{\mathrm{obs}}, Y^{\mathrm{obs}} \in \mathbb{R}^d$, имея в распоряжении только наблюдательные данные $\mathcal{D} = \{(X^{\mathrm{obs}}(t), Y^{\mathrm{obs}}(t))\}_{t=1}^{T}$. В отличие от стандартной задачи поиска причинно-следственного графа, мы хотим получить полную SCM, что позволяет отвечать не только на ассоциативные вопросы, но и на интервенционные ($p(Y \mid \mathrm{do}(X))$) и контрфактические запросы.
+
+Ключевое наблюдение состоит в том, что в высокой размерности $d \gg k$ восстановление SCM напрямую интрактимо: число параметров растёт квадратично с $d$, а сигнал концентрируется в низкоразмерном подпространстве размерности $k \sim 4{-}10$. Поэтому пайплайн строится в два этапа:
+
+\begin{enumerate}
+    \item \textbf{Сжатие в латент.} С помощью канонического корреляционного анализа (CCA) находим линейное подпространство размерности $k$, в котором концентрируется совместный сигнал $X^{\mathrm{obs}}, Y^{\mathrm{obs}}$. Это даёт начальные представления $X = U^+ X^{\mathrm{obs}}, Y = V^+ Y^{\mathrm{obs}} \in \mathbb{R}^k$, в которых далее производится причинный вывод.
+    \item \textbf{Восстановление SCM в латенте.} В латентном пространстве $\mathbb{R}^k$ обучаем параметрическую SCM с фиксированной структурой графа $G_0$, используя композиционный байесовский лосс. Лосс комбинирует два источника сигнала: вариационное правдоподобие из байесовского CCA \cite{klami2013bayesian} и интервенционное правдоподобие из байесовского формализма причинного вывода \cite{lattimore2019replacing}.
+    \item \textbf{Перенос в исходное пространство.} Полученные параметры SCM аналитически переносятся в $\mathbb{R}^d$ через декодеры латента, после чего сингулярное разложение прямого каузального оператора задаёт разреженную структуру связей.
+\end{enumerate}
+
+Обоснование выбора компонентов: CCA берётся как стандартный инструмент извлечения совместного линейного подпространства \cite{klami2013bayesian}, обеспечивающий идентифицируемость латента при мульти-модальных данных \cite{khemakhem2020variational}. Байесовская формулировка позволяет ввести ARD-приоры на параметры структурных уравнений, что даёт автоматический выбор размерности латента и разреженность каузальных каналов. Композиция с интервенционным правдоподобием через обучаемый генератор стохастических интервенций $\pi_\alpha$ обеспечивает разрыв скрытого конфаундинга и идентифицируемость прямого канала $X \to Y$ \cite{correa2020calculus, brouillard2020differentiable}.
+
+\subsection{Постановка задачи и допущения}
+
+Пусть $\mathcal{D} = \{(X^{\mathrm{obs}}(t), Y^{\mathrm{obs}}(t))\}_{t=1}^{T}$ — парные временные ряды, $X^{\mathrm{obs}}(t), Y^{\mathrm{obs}}(t) \in \mathbb{R}^d$, $d \gg k$. Работаем в следующих допущениях:
+
+\begin{description}
+    \item[(A1)] Существует низкоразмерная общая причина $Z \in \mathbb{R}^k$, генерирующая оба сигнала.
+    \item[(A2)] Между сигналами есть прямой каузальный канал $X^{\mathrm{obs}} \to Y^{\mathrm{obs}}$.
+    \item[(A3)] Механизмы линейные, шумы гауссовы. Стационарность по времени, лаги игнорируются.
+    \item[(A4)] Идентифицируемость латента обеспечивается мульти-модальностью данных в духе iVAE \cite{khemakhem2020variational}.
+\end{description}
+
+\subsection{Структурная каузальная модель в латенте}
+
+Фиксируем минимальную SCM в латенте на графе
+\begin{equation}
+    G_0 = \{Z \to X,\ Z \to Y,\ X \to Y\}, \quad X, Y, Z \in \mathbb{R}^k,
+\end{equation}
+с линейными структурными уравнениями:
+\begin{equation}
+    \label{eq:scm}
+    \begin{aligned}
+        Z &\sim \mathcal{N}(0, I_k), \\
+        X &= A Z + \varepsilon_x, \quad \varepsilon_x \sim \mathcal{N}(0, \Sigma_x), \\
+        Y &= B Z + C X + \varepsilon_y, \quad \varepsilon_y \sim \mathcal{N}(0, \Sigma_y).
+    \end{aligned}
+\end{equation}
+
+\paragraph{Достаточность графа $G_0$.} В линейно-гауссовом случае любая SCM с $m$ независимыми конфаундерами $Z_1, \dots, Z_m$, влияющими на $X^{\mathrm{obs}}$ и $Y^{\mathrm{obs}}$, и одним прямым каналом, эквивалентна модели вида~\eqref{eq:scm} с $\dim Z = m$. Это следует из того, что в линейном случае линейная комбинация независимых конфаундеров образует $k$-мерный гауссовский вектор, эквивалентный одному многомерному $Z$ с диагональной ковариацией. Таким образом, $G_0$ покрывает весь класс линейно-гауссовых SCM с произвольным числом независимых конфаундеров при подходящем выборе $k$ (подробное утверждение и обсуждение оговорок — Утверждение~\ref{thm:G0-universality}).
+
+\subsection{Генеративная модель}
+
+Полная генеративная модель факторизуется в соответствии с causal Markov-свойством для $G_0$:
+\begin{equation}
+    p(X, Y, Z \mid \theta) = p(Z) \cdot p(X \mid Z; \theta) \cdot p(Y \mid X, Z; \theta),
+\end{equation}
+где $\theta = (A, B, C, \Sigma_x, \Sigma_y)$ — структурные параметры.
+
+\paragraph{Приоры.} По аналогии с байесовским CCA \cite{klami2013bayesian} вводим ARD-приоры на столбцы матриц $A, B, C$ для автоматического определения активных компонент латента и каузальных каналов:
+\begin{equation}
+    p(A \mid \boldsymbol{\alpha}^A) = \prod_{j=1}^{k} \mathcal{N}\big(A_{\cdot j} \mid 0, (\alpha^A_j)^{-1} I\big), \quad \alpha^A_j \sim \mathrm{Gamma}(a_0, b_0),
+\end{equation}
+аналогично для $B$ с $\boldsymbol{\alpha}^B$ и $C$ с $\boldsymbol{\alpha}^C$. На шумовые ковариации:
+\begin{equation}
+    \Sigma_x \sim \mathcal{IW}(\nu_0, S_0), \quad \Sigma_y \sim \mathcal{IW}(\nu_0, S_0),
+\end{equation}
+где $\mathcal{IW}$ — обратное распределение Уишарта.
+
+\paragraph{Генератор стохастических интервенций.} Вводим параметрическое семейство стохастических интервенций \cite{correa2020calculus}:
+\begin{equation}
+    \label{eq:intervention}
+    \pi_\alpha(Z; \xi) = (1 - \alpha)\, q^{\mathrm{marg}}_\phi(Z) + \alpha\, \mathcal{N}(\mu_\xi, \Sigma_\xi),
+\end{equation}
+где $q^{\mathrm{marg}}_\phi(Z) = \mathbb{E}_{(X,Y) \sim \mathcal{D}}[q_\phi(Z \mid X, Y)]$ — агрегатное вариационное апостериорное распределение, $\xi = (\mu_\xi, \Sigma_\xi)$ — обучаемые параметры, $\alpha \in [0, 1]$ — температурный параметр. При $\alpha = 0$ интервенция совпадает с обсервационным распределением латента, при $\alpha = 1$ — полностью замещает его независимым гауссовским источником, формально соответствующим оператору $\mathrm{do}(Z)$.
+
+\subsection{Байесовский вывод для CCA с прямым каналом}
+
+Стандартное байесовское CCA \cite{klami2013bayesian} рассматривает модель
+\begin{equation}
+    X = W_x Z + \varepsilon_x, \quad Y = W_y Z + \varepsilon_y,
+\end{equation}
+в которой $X$ и $Y$ условно независимы при заданном $Z$. В нашем случае добавлено прямое ребро $X \to Y$, поэтому генеративная модель~\eqref{eq:scm} имеет другую факторизацию:
+\begin{equation}
+    p(X, Y \mid Z) = p(X \mid Z) \cdot p(Y \mid X, Z).
+\end{equation}
+
+Логарифмическое правдоподобие наблюдений оценивается через вариационный нижний предел (ELBO) с амортизированным энкодером $q_\phi(Z \mid X, Y)$:
+\begin{equation}
+    \label{eq:elbo-pcca}
+    \log p(X, Y) \geq \mathbb{E}_{q_\phi}\!\Big[\log p(X \mid Z; \theta) + \log p(Y \mid X, Z; \theta)\Big] - \mathrm{KL}\!\big[q_\phi(Z \mid X, Y) \,\|\, p(Z)\big].
+\end{equation}
+Это даёт первое слагаемое композитного лосса.
+
+\subsection{Байесовский вывод для причинного вывода}
+
+Для идентификации прямого канала $C$ необходим сигнал, разрывающий конфаундинг через $Z$. Следуя \cite{lattimore2019replacing}, формулируем интервенционное правдоподобие как маргинализацию структурного распределения $p(Y \mid X, Z)$ по обучаемому интервенционному распределению $\pi_\alpha$:
+\begin{equation}
+    \label{eq:interv-lik}
+    p^{\mathrm{do}}(Y \mid X; \theta, \xi) = \int p(Y \mid X, Z = z_0;\, \theta)\, \pi_\alpha(z_0;\, \xi)\, dz_0.
+\end{equation}
+
+Это правдоподобие отличается от наблюдательного $p(Y \mid X)$ ровно тем, что $Z$ в нём генерируется не из $p(Z \mid X)$ (что включает конфаундинг), а из $\pi_\alpha$ (что моделирует разрыв связи $Z \to X$). По принципу инвариантности каузальных механизмов \cite{scholkopf2021toward, peters2016causal}, структурное распределение $p(Y \mid X, Z)$ должно быть устойчивым к замене источника $Z$, что и даёт критерий идентификации $\theta$ и $\xi$ совместно.
+
+\subsection{Композиционный лосс}
+
+Объединяем все компоненты в единый лосс:
+\begin{equation}
+    \label{eq:full-loss}
+    \boxed{\mathcal{L}(\theta, \phi, \xi) = \mathcal{L}_{\mathrm{rec}}(\theta, \phi) + \beta\, \mathcal{L}_{\mathrm{inv}}(\theta, \xi) + \gamma\, \mathcal{L}_{\mathrm{anchor}}(\xi, \phi) - \log p(\theta)}
+\end{equation}
+с компонентами:
+\begin{align}
+    \mathcal{L}_{\mathrm{rec}}(\theta, \phi) &= -\mathbb{E}_{(X,Y) \sim \mathcal{D}}\!\Big[\mathbb{E}_{q_\phi(Z \mid X, Y)}\!\big[\log p(X \mid Z) + \log p(Y \mid X, Z)\big] \nonumber \\
+    &\qquad - \mathrm{KL}\!\big[q_\phi(Z \mid X, Y) \,\|\, p(Z)\big]\Big], \\[1ex]
+    \mathcal{L}_{\mathrm{inv}}(\theta, \xi) &= -\mathbb{E}_{(X,Y) \sim \mathcal{D}}\!\Big[\log \int p(Y \mid X, Z = z_0;\, \theta)\, \pi_\alpha(z_0;\, \xi)\, dz_0\Big], \\[1ex]
+    \mathcal{L}_{\mathrm{anchor}}(\xi, \phi) &= \mathrm{KL}\!\big[\pi_\alpha(Z;\, \xi) \,\|\, q^{\mathrm{marg}}_\phi(Z)\big], \\[1ex]
+    -\log p(\theta) &= -\log p(A \mid \boldsymbol{\alpha}^A) - \log p(B \mid \boldsymbol{\alpha}^B) - \log p(C \mid \boldsymbol{\alpha}^C) - \log p(\Sigma_x) - \log p(\Sigma_y).
+\end{align}
+
+\paragraph{Семантика слагаемых.} Каждое слагаемое отвечает за свою роль в идентификации параметров:
+\begin{itemize}
+    \item $\mathcal{L}_{\mathrm{rec}}$ — стандартный ELBO байесовского CCA, адаптированный под causal-факторизацию с прямым ребром $X \to Y$; обучает $\theta$ и $\phi$ через наблюдательное правдоподобие \cite{klami2013bayesian}.
+    \item $\mathcal{L}_{\mathrm{inv}}$ — интервенционное маргинальное правдоподобие; обучает совместно $\theta$ и $\xi$, поскольку $\pi_\alpha$ входит непосредственно в интеграл; даёт сигнал об инвариантности структурного механизма $p(Y \mid X, Z)$ \cite{lattimore2019replacing, scholkopf2021toward}.
+    \item $\mathcal{L}_{\mathrm{anchor}}$ — регуляризатор, удерживающий $\pi_\alpha$ в support'е латента и предотвращающий вырождение в дельта-функцию \cite{mahajan2020domain}.
+    \item $-\log p(\theta)$ — ARD- и IW-приоры; обеспечивают разреженность $A, B, C$ и регуляризацию шумовых ковариаций.
+\end{itemize}
+
+\paragraph{Отсутствие тавтологии.} В отличие от наивной формулировки, в которой $\mathcal{L}_{\mathrm{inv}}$ оценивалось бы на сэмплах из текущей модели (что приводит к коллапсу в self-distillation), здесь $\mathcal{L}_{\mathrm{inv}}$ вычисляется на реальных парах $(X, Y) \in \mathcal{D}$, а $\pi_\alpha$ участвует только как переменная интегрирования. Это аналогично reparameterization trick в VAE и не создаёт замкнутого контура самообучения.
+
+\subsection{Алгоритм обучения: вариационный EM}
+
+Обучение модели~\eqref{eq:full-loss} организуется как вариационный EM-алгоритм (VEM) \cite{beal2003variational}, в котором E-шаг выполняется аналитически за счёт линейно-гауссовой структуры~\eqref{eq:scm}, а M-шаг — градиентным спуском.
+
+
+\begin{algorithm}[h]
+\caption{Вариационный EM для Causal CCA}
+\label{alg:vem}
+\KwIn{Данные $\mathcal{D} = \{(X^{(t)}, Y^{(t)})\}_{t=1}^T$, начальное приближение $(\theta_0, \xi_0)$, гиперпараметры приоров $(a_0, b_0, \nu_0, S_0)$, расписание $\alpha_t : 0 \to 1$.}
+\KwOut{Обученные параметры $(\hat\theta, \hat\xi)$ и апостериор $q(Z \mid X, Y, \hat\theta)$.}
+\For{итерация $t = 1, \dots, N$}{
+    \textbf{E-шаг:} вычислить аналитический апостериор $q_\phi(Z \mid X, Y) = \mathcal{N}(\mu_Z, \Sigma_Z)$, где $\mu_Z, \Sigma_Z$ — функции от $\theta_{t-1}$ (замкнутая форма для линейно-гауссовой модели)\;
+
+    
+    \textbf{M-шаг (структурные параметры):} обновить
+    $(\theta_t) \leftarrow (\theta_{t-1}) - \eta \nabla_\theta \big[\mathcal{L}_{\mathrm{rec}} + \beta \mathcal{L}_{\mathrm{inv}} - \log p(\theta)\big]$\;
+
+    
+    \textbf{M-шаг (генератор интервенций):} обновить
+    $\xi_t \leftarrow \xi_{t-1} - \eta \nabla_\xi \big[\beta \mathcal{L}_{\mathrm{inv}} + \gamma \mathcal{L}_{\mathrm{anchor}}\big]$\;
+
+    
+    \textbf{Сопряжённые обновления:} закрытые формулы для ARD-гиперпараметров $\boldsymbol{\alpha}^{A,B,C}$ и IW-параметров $\Sigma_x, \Sigma_y$\;
+
+    
+    \textbf{Annealing:} обновить $\alpha_t$ согласно расписанию\;
+}
+\Return{$(\hat\theta, \hat\xi)$ и $q_\phi(Z \mid X, Y; \hat\theta)$.}
+\end{algorithm}
+
+
+\paragraph{Перенос в исходное пространство.} После обучения структурные параметры $\hat A, \hat B, \hat C$ переносятся в $\mathbb{R}^d$ через обученные декодеры $D_X, D_Y$:
+\begin{equation}
+    C^{\mathrm{obs}} = D_Y\, \hat C\, D_X^{+}.
+\end{equation}
+Сингулярное разложение прямого каузального оператора
+\begin{equation}
+    C^{\mathrm{obs}} = U'\, \Lambda'\, V'^\top
+\end{equation}
+задаёт разреженную структуру связей: ARD-приоры на $\hat C$ обеспечивают, что часть сингулярных значений $\Lambda'_{jj}$ обнуляется, а ненулевые соответствуют активным каузальным каналам с направлениями в $\mathbb{R}^d$, заданными столбцами $U', V'$. Подчеркнём, что это разложение принципиально отличается от стандартного CCA-разложения наблюдательного кросс-оператора: $C^{\mathrm{obs}}$ — каузальный объект, не включающий конфаундинг через $Z$.
+
+\subsection{Теоретические утверждения}
+
+В работе формулируется и доказывается одна центральная теорема и несколько вспомогательных утверждений.
+
+\begin{theorem}[Идентифицируемость SCM в латенте]
+\label{thm:identifiability}
+Пусть выполнены допущения (A1)--(A4) и условия:
+\begin{description}
+    \item[(C1)] Линейно-гауссова параметризация согласно~\eqref{eq:scm}.
+    \item[(C2)] \textnormal{Достаточная вариативность интервенций.} Параметрическое семейство $\{\pi_\alpha(\cdot; \xi)\}$ имеет не менее $2k+1$ линейно независимых распределений в пространстве первых и вторых моментов.
+    \item[(C3)] Матрицы $A, B$ имеют полный столбцовый ранг, $\Sigma_x, \Sigma_y \succ 0$.
+\end{description}
+Тогда глобальный минимум лосса~\eqref{eq:full-loss} соответствует истинным параметрам $(A, B, C)$ с точностью до перестановки и смены знака компонент латента $Z$.
+\end{theorem}
+
+\paragraph{Скетч доказательства Теоремы~\ref{thm:identifiability}.}
+\begin{enumerate}
+    \item Из (C1) совместное распределение $(X, Y)$ под интервенцией $\pi_\alpha$ вычисляется в замкнутой форме как гауссиан со средним и ковариацией, явно зависящими от $(A, B, C, \Sigma_x, \Sigma_y)$ и моментов $\pi_\alpha$.
+    \item Варьируя $\pi_\alpha$ по условию (C2), получаем семейство уравнений на $(A, B, C)$, число которых не меньше числа неизвестных параметров.
+    \item По теореме об идентифицируемости из \cite{khemakhem2020variational} (Theorem~1) этого достаточно для восстановления параметров с точностью до перестановки и смены знака компонент $Z$.
+    \item Полный ранг (C3) гарантирует невырожденность системы; ARD-приоры на $C$ дополнительно фиксируют разреженность каузальных каналов и устраняют избыточные параметры.
+\end{enumerate}
+
+\begin{theorem}[Корректность переноса SCM в исходное пространство]
+\label{thm:transfer}
+Пусть $\mathrm{SCM}_{\mathrm{latent}}$ — обученная SCM с параметрами $(\hat A, \hat B, \hat C)$ в латенте, и $D_X, D_Y$ — линейные декодеры в исходное пространство. Тогда индуцированная SCM в $\mathbb{R}^d$ с параметрами $A^{\mathrm{obs}} = D_X \hat A$, $B^{\mathrm{obs}} = D_Y \hat B$, $C^{\mathrm{obs}} = D_Y \hat C D_X^+$ удовлетворяет
+\begin{equation}
+    p^{\mathrm{obs}}\!\big(Y^{\mathrm{obs}} \mid \mathrm{do}(X^{\mathrm{obs}})\big) = p^{\mathrm{latent}}\!\big(Y \mid \mathrm{do}(X)\big)\Big|_{X = D_X^+ X^{\mathrm{obs}},\, Y = D_Y^+ Y^{\mathrm{obs}}}.
+\end{equation}
+\end{theorem}
+
+\paragraph{Скетч доказательства Теоремы~\ref{thm:transfer}.} Прямая подстановка в структурные уравнения и проверка коммутативности $\mathrm{do}$-оператора с линейным декодером. Аналог результата о каузальной согласованности SCM \cite{rubenstein2017causal}.
+
+\begin{proposition}[Универсальность $G_0$ в линейно-гауссовом случае]
+\label{thm:G0-universality}
+В классе линейно-гауссовых SCM с произвольным конечным числом независимых конфаундеров $Z_1, \dots, Z_m$ и одним прямым каналом $X^{\mathrm{obs}} \to Y^{\mathrm{obs}}$, любая такая SCM эквивалентна (по совместному распределению $p(X^{\mathrm{obs}}, Y^{\mathrm{obs}})$) SCM на графе $G_0$ с $\dim Z = m$.
+\end{proposition}
+
+\paragraph{Скетч доказательства Утверждения~\ref{thm:G0-universality}.} Линейная комбинация независимых гауссовских конфаундеров $Z_1, \dots, Z_m$ образует $m$-мерный гауссовский вектор $Z$ с диагональной ковариацией. Подстановка в структурные уравнения для $X^{\mathrm{obs}}$ и $Y^{\mathrm{obs}}$ показывает, что любая такая модель имеет вид~\eqref{eq:scm}. Оговорки касаются неравных размерностей, зависимостей между конфаундерами и нелинейного случая; подробное обсуждение — в разделе~\ref{sec:limitations}.
+
+\subsection{Резюме}
+
+Подход состоит из (i) генеративной модели интервенций $\pi_\alpha$ в виде смеси агрегатного апостериора и обучаемой гауссианы, (ii) композиционного лосса из вариационного ELBO байесовского CCA с causal-факторизацией и интервенционного маргинального правдоподобия, (iii) вариационного EM-алгоритма с аналитическим E-шагом и градиентным M-шагом, поддержанного ARD- и IW-приорами. Центральная теоретическая гарантия — идентифицируемость структурных параметров SCM при условии достаточной вариативности обучаемого интервенционного семейства; корректность переноса SCM в исходное пространство обеспечивается линейностью декодеров.
+
+
+
