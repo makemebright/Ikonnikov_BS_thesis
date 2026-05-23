@@ -1,0 +1,358 @@
+\documentclass[19pt,pdf,hyperref={unicode}]{beamer}
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}[page number]
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{ragged2e}
+\usepackage{indentfirst}
+\usepackage{multicol}
+\usepackage{subfig}
+\usepackage{amsmath,amssymb}
+\usepackage{enumerate}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage[all]{xy}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\definecolor{name}{rgb}{0.5,0.5,0.5}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Normal}{\mathcal{N}}
+\newcommand{\Cat}{\mathrm{Cat}}
+\newcommand{\Loss}{\mathcal{L}}
+\newcommand{\doop}{\operatorname{do}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\Xobs}{X^{\mathrm{obs}}}
+\newcommand{\Yobs}{Y^{\mathrm{obs}}}
+
+\title[Probabilistic Causal CCM]{Вероятностные модели причинно-следственных связей\\в сходящихся отображениях}
+\author{Иконников Марк}
+\date{май 2026}
+
+\begin{document}
+
+% Slide 1
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% Slide 2
+\begin{frame}{Проблема}
+Даны два высокоразмерных временных ряда
+\[
+\mathcal{D} = \{(\Xobs(t), \Yobs(t))\}_{t=1}^{T}, \qquad
+\Xobs(t),\Yobs(t) \in \R^d, \quad d \gg 1.
+\]
+Требуется восстановить интерпретируемую причинную структуру между сигналами, имея только наблюдательные данные.
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{Фазовые траектории_v2.png}
+\end{center}
+\end{frame}
+
+% Slide 3
+\begin{frame}{Цель работы}
+\begin{block}{Основная цель}
+Построить структурную причинную модель, которая по наблюдательным данным выделяет скрытые режимы и поддерживает интервенционные запросы.
+\end{block}
+
+\begin{block}{Идея}
+Мы не восстанавливаем граф напрямую в исходном пространстве $\R^d$. Сначала переходим в CCA-латент, строим там SCM, а затем переносим найденные связи обратно.
+\end{block}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{Снимок экрана 2026-05-23 142331.png}
+    \caption{Classic CCA}
+    \label{fig:cca-classic}
+\end{figure}
+\end{frame}
+
+% Slide 4
+\begin{frame}{Ключевая идея подхода}
+\begin{columns}
+\begin{column}{0.55\textwidth}
+\begin{block}{Latent SCM}
+Работаем с минимальным графом
+\[
+    Z \to X, \qquad Z \to Y, \qquad X \to Y.
+\]
+Скрытый $Z$ отвечает за общий фактор, а канал $X \to Y$ --- за прямое влияние между сигналами.
+\end{block}
+
+\begin{block}{Обучаемая интервенция}
+Оператор $\doop(Z=z_0)$ заменяется обучаемой стохастической политикой-смесью. Компоненты смеси соответствуют ненаблюдаемым режимам данных.
+\end{block}
+\end{column}
+
+\begin{column}{0.45\textwidth}
+\centering
+\begin{tikzpicture}[node distance=1.8cm, thick, >=stealth]
+    \node[circle, draw, fill=blue!10, minimum size=0.9cm] (Z) {$Z$};
+    \node[circle, draw, fill=blue!10, below left of=Z, minimum size=0.9cm] (X) {$X$};
+    \node[circle, draw, fill=blue!10, below right of=Z, minimum size=0.9cm] (Y) {$Y$};
+    \draw[->] (Z) -- (X);
+    \draw[->] (Z) -- (Y);
+    \draw[->] (X) -- (Y);
+\end{tikzpicture}
+
+\vspace{0.5cm}
+\fbox{\parbox{0.9\linewidth}{\centering Observed $X,Y$ $\to$ CCA latent $\to$ SCM $\to$ graph}}
+\end{column}
+\end{columns}
+\end{frame}
+
+% Slide 5
+\begin{frame}{Структурная модель в латенте}
+Фиксируем линейно-гауссову SCM:
+\[
+\begin{aligned}
+    Z &\sim \pi_\xi(Z), \\
+    X &= A Z + \varepsilon_x, \qquad \varepsilon_x \sim \Normal(0, \Sigma_x), \\
+    Y &= B Z + C X + \varepsilon_y, \qquad \varepsilon_y \sim \Normal(0, \Sigma_y).
+\end{aligned}
+\]
+
+\begin{block}{Смысл параметров}
+$A$ описывает канал $Z \to X$, $B$ --- канал $Z \to Y$, а $C$ --- прямой канал $X \to Y$. Все три матрицы являются общими для всех режимов.
+\end{block}
+
+\begin{block}{Каузальная интерпретация}
+Модель явно разделяет общий источник зависимости и прямое влияние, поэтому интервенция на $Z$ или $X$ имеет смысл внутри заданной SCM.
+\end{block}
+\end{frame}
+
+% Slide 6
+\begin{frame}{Обучаемый do-оператор}
+Задаем распределение интервенций как смесь гауссиан:
+\[
+    \pi_\xi(Z) = \sum_{e=1}^{E_{\max}} w_e \Normal(Z;\mu_e,\Sigma_e),
+    \qquad \sum_e w_e = 1, \quad w_e \ge 0.
+\]
+Каждая компонента задает soft-интервенцию
+\[
+    \doop_e(Z) \equiv \doop\big(Z \sim \Normal(\mu_e,\Sigma_e)\big).
+\]
+
+\begin{block}{Предельный случай}
+При $\Sigma_e \to 0$ компонента смеси вырождается в атомарную интервенцию $\doop(Z=\mu_e)$.
+\end{block}
+\end{frame}
+
+% Slide 7
+\begin{frame}{3CA Algorithm}
+\begin{enumerate}
+    \item \textbf{Выбор лага:} ищем $\tau^*$ через максимум старшего CCA-коэффициента.
+    \item \textbf{CCA-сжатие:} переходим от $\R^d$ к $\R^k$.
+    \item \textbf{Causal Mixture Model:} обучаем SCM с общими параметрами $\theta=(A,B,C)$ и смесью режимов.
+    \item \textbf{EM-обучение:} выводим responsibilities $r_{t,e}$ и параметры режимов.
+    \item \textbf{Извлечение графа:} получаем per-regime оператор $F'_e$ и переносим его в исходное пространство.
+\end{enumerate}
+\end{frame}
+
+% Slide 8
+\begin{frame}{Генеративная модель, loss и EM}
+\small
+\begin{block}{Causal mixture}
+\[
+ p(X,Y,Z,e\mid\theta,\xi)=p(e\mid\xi)p(Z\mid e;\xi)p(X\mid Z;\theta)p(Y\mid X,Z;\theta).
+\]
+\[
+ p(X_t,Y_t\mid\theta,\xi)=\sum_{e=1}^{E_{\max}} w_e
+ \int p(X_t\mid Z;\theta)p(Y_t\mid X_t,Z;\theta)\Normal(Z;\mu_e,\Sigma_e)dZ.
+\]
+\end{block}
+
+\begin{block}{Полученный $\mathcal{L}$}
+\[
+\Loss(\theta,\xi)=
+-\sum_{t=1}^{T}\log\sum_{e=1}^{E_{\max}}w_e p(X_t,Y_t\mid\doop_e;\theta)
+-\log p(\theta)-\log p(w).
+\]
+\end{block}
+
+\begin{block}{EM-обучение}
+\[
+ r_{t,e}=\frac{w_e p(X_t,Y_t\mid e;\theta,\xi)}
+ {\sum_{e'}w_{e'}p(X_t,Y_t\mid e';\theta,\xi)}.
+\]
+На M-шаге $\theta=(A,B,C)$ обновляются общими weighted normal equations, а $w_e,\mu_e,\Sigma_e$ --- стандартными формулами GMM.
+\end{block}
+\end{frame}
+
+% Slide 9
+\begin{frame}{Извлечение каузального графа}
+После обучения для каждого режима строим оператор связи $X \to Y$ в латенте:
+\[
+    F'_e = \hat C + \hat B\,\Cov_e(Z,X)\,\Cov_e(X,X)^{-1}.
+\]
+Далее используем SVD-разложение
+\[
+    F'_e = U'_e \Lambda'_e {V'_e}^{\top},
+    \qquad
+    \Lambda'_e = \diag(\lambda'_{e,1},\dots,\lambda'_{e,k}).
+\]
+
+\begin{block}{Восстановление  графа}
+CCA дает линейные декодеры $D_X,D_Y$. Через них переносим найденные структурные параметры:
+\[
+    A^{\mathrm{obs}} = D_X\hat A, \qquad
+    B^{\mathrm{obs}} = D_Y\hat B.
+\]
+Оператор связи в исходных координатах:
+\[
+    F^{\mathrm{obs}}_e = D_Y F'_e D_X^+.
+\]
+
+\end{block}
+\end{frame}
+
+% Slide 11
+\begin{frame}{Теоретические утверждения}
+\small
+\begin{block}{Утверждение 1: идентифицируемость SCM в латенте}
+Пусть SCM линейно-гауссова, истинное число режимов ограничено, а моменты компонент смеси различимы.
+
+Тогда глобальный максимум $\Loss$ восстанавливает структурные параметры $(A,B,C)$ с точностью до перестановки и смены знака латентных компонент.
+\end{block}
+
+\begin{block}{Теорема 2: корректность переноса SCM в исходное пространство}
+Пусть $\mathrm{SCM}_{\mathrm{latent}}$ --- обученная SCM с параметрами $(\hat A,\hat B,\hat C)$ в латенте, а $D_X,D_Y$ --- CCA-декодеры. Тогда индуцированная SCM в $\R^d$ с
+\[
+A^{\mathrm{obs}}=D_X\hat A,\quad B^{\mathrm{obs}}=D_Y\hat B,\quad F_e^{\mathrm{obs}}=D_YF'_eD_X^+
+\]
+сохраняет интервенционную семантику:
+\[
+ p^{\mathrm{obs}}(\Yobs\mid\doop(\Xobs))=
+ p^{\mathrm{latent}}(Y\mid\doop(X))\Big|_{X=D_X^+\Xobs,\;Y=D_Y^+\Yobs}.
+\]
+\end{block}
+\end{frame}
+
+% Slide 12
+\begin{frame}{Связь с CCM}
+\begin{block}{Классический CCM}
+CCM проверяет, можно ли по shadow manifold одного ряда восстановить состояние другого. Рост качества cross-mapping при увеличении длины библиотеки интерпретируется как признак причинной связи.
+\end{block}
+
+\begin{block}{Наша модификация}
+Мы добавляем к CCM латентную интервенционную модель. CCA выделяет совместный низкоразмерный сигнал, mixture-модель разделяет режимы, а per-regime операторы $F'_e$ дают слой, внутри которого можно применять CCM или сравнивать causal strength.
+\end{block}
+\end{frame}
+
+% Slide 13
+\begin{frame}{Метрики качества}
+\small
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Метрика} & \textbf{Что измеряет} \\
+\midrule
+Predictive error & Насколько хорошо модель предсказывает $Y_t$ по $X_{t-\tau}$ \\
+Cross-map skill & Растет ли качество CCM при увеличении library length \\
+Regime stability & Устойчивы ли найденные режимы при разных инициализациях EM \\
+Graph sparsity & Получается ли разреженный и интерпретируемый оператор $F'_e$ \\
+Intervention consistency & Согласованы ли ответы модели на $\doop_e(Z)$ между режимами \\
+\bottomrule
+\end{tabularx}
+
+\vspace{0.3cm}
+\begin{block}{Базовые сравнения}
+Сравниваем с CCA без каузального слоя, с единственным режимом $E=1$, и с обычным CCM без латентного разделения режимов.
+\end{block}
+\end{frame}
+
+% Slide 14
+\begin{frame}{Экспериментальный сетап}
+\begin{block}{Данные}
+Парные многомерные временные ряды с датчиков движения: акселерометр, гироскоп и ориентация.
+\end{block}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.0\textwidth]{all_series.png}
+    \caption{Временные ряды}
+    \label{fig:all-series}
+\end{figure}
+\end{frame}
+
+% Slide 15
+\begin{frame}{Результаты}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.98\textwidth]{acc_vs_dim_v2.png}
+    \label{fig:acc-vs-dim}
+\end{figure}
+
+\vspace{-0.2cm}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.78\textwidth]{regimes.png}
+    \label{fig:regimes}
+\end{figure}
+\end{frame}
+
+% Slide 16
+\begin{frame}{Результаты: модель и предсказание}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{3ca.png}
+\end{column}
+\begin{column}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{causal_graph.png}
+\end{column}
+\end{columns}
+
+\vspace{0.35cm}
+\begin{center}
+    \includegraphics[width=0.82\textwidth]{ci_cca_pred.png}
+\end{center}
+\end{frame}
+
+% Slide 18
+\begin{frame}{Тезисы, выносимые на защиту}
+\begin{enumerate}
+    \item \textbf{Вид $\doop$-интервенции.} Оператор $\doop(Z=z_0)$ формализуется как обучаемая стохастическая смесь
+    \[
+        \pi_\xi(Z)=\sum_e w_e\Normal(Z;\mu_e,\Sigma_e),
+    \]
+    где компоненты соответствуют скрытым режимам данных.
+    \item \textbf{Алгоритм.} Предложен 3CA-пайплайн: выбор лага, CCA-сжатие, causal mixture SCM, EM-обучение, извлечение и перенос графа.
+    \item \textbf{Теорема об идентифицируемости.} При различимых режимах и инвариантных $(A,B,C)$ структурные параметры восстанавливаются в латенте с точностью до стандартных неоднозначностей.
+    \item \textbf{Теорема о переносе.} CCA-декодеры индуцируют SCM в исходном пространстве и сохраняют интервенционную семантику.
+\end{enumerate}
+\end{frame}
+
+% Slide 19
+\begin{frame}{Литература}
+\tiny
+\begin{tabularx}{\textwidth}{l c X}
+\toprule
+\textbf{Авторы} & \textbf{Год} & \textbf{Публикация} \\
+\midrule
+Klami, Virtanen, Kaski & 2013 & Journal of Machine Learning Research, 14:965--1003 \\
+McLachlan, Peel & 2000 & Wiley \\
+Dempster, Laird, Rubin & 1977 & Journal of the Royal Statistical Society B, 39(1):1--38 \\
+Correa, Bareinboim & 2020 & AAAI \\
+Khemakhem, Kingma, Monti, Hyv\"arinen & 2020 & AISTATS \\
+Sch\"olkopf et al. & 2021 & Proceedings of the IEEE, 109(5):612--634 \\
+Beal & 2003 & PhD thesis, University College London \\
+Teicher & 1963 & Annals of Mathematical Statistics, 34:1265--1269 \\
+Rubenstein et al. & 2017 & UAI \\
+Pearl & 2009 & Cambridge University Press, 2nd edition \\
+Sugihara et al. & 2012 & Science, 338(6106):496--500 \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+\end{document}
